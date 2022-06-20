@@ -31,16 +31,31 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean addCategory(Category category) {
-        return false;
+        int effectedNum = categoryMapper.insert(category);
+        if (effectedNum > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean modifyCategory(Category category) {
-        return false;
+        int effectedNum = categoryMapper.updateByPrimaryKey(category);
+        if (effectedNum > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean deleteCategory(int categoryId) {
-        return false;
+        int effectedNum = categoryMapper.deleteByPrimaryKey(categoryId);
+        if (effectedNum > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
