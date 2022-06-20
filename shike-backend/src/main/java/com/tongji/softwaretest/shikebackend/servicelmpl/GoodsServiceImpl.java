@@ -31,16 +31,31 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public boolean addGoods(Goods goods) {
-        return false;
+        int effectedNum = goodsMapper.insert(goods);
+        if (effectedNum > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean modifyGoods(Goods goods) {
-        return false;
+        int effectedNum = goodsMapper.updateByPrimaryKey(goods);
+        if (effectedNum > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean deleteGoods(int goodsId) {
-        return false;
+        int effectedNum = goodsMapper.deleteByPrimaryKey(goodsId);
+        if (effectedNum > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 }

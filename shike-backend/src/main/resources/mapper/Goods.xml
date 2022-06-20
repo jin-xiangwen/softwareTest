@@ -19,9 +19,10 @@
         insert into t_goods (goods_id, goods_category, goods_name,
         goods_price, goods_sales_amount, goods_image,
         t_store_store_id, t_category_category_id)
-        values (#{goodsId,jdbcType=INTEGER}, #{goodsCategory,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR},
-        #{goodsPrice,jdbcType=REAL}, #{goodsSalesAmount,jdbcType=INTEGER}, #{goodsImage,jdbcType=VARCHAR},
-        #{tStoreStoreId,jdbcType=INTEGER}, #{tCategoryCategoryId,jdbcType=INTEGER})
+        values (#{goodsId,jdbcType=INTEGER}, (select #{goodsCategory,jdbcType=VARCHAR} from t_category where category_id = #{tCategoryCategoryId,jdbcType=INTEGER} and category_name = #{goodsCategory,jdbcType=VARCHAR}),
+        #{goodsName,jdbcType=VARCHAR},#{goodsPrice,jdbcType=REAL}, #{goodsSalesAmount,jdbcType=INTEGER}, #{goodsImage,jdbcType=VARCHAR},
+        (select #{tStoreStoreId,jdbcType=INTEGER} from t_category where t_store_store_id = #{tStoreStoreId,jdbcType=INTEGER}),
+        (select #{tCategoryCategoryId,jdbcType=INTEGER} from t_category where category_id = #{tCategoryCategoryId,jdbcType=INTEGER}))
     </insert>
     <update id="updateByPrimaryKey" parameterType="com.tongji.softwaretest.shikebackend.entity.Goods">
         update t_goods
