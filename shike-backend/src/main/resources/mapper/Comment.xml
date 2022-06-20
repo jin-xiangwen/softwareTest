@@ -21,8 +21,11 @@
         goods_name, comments, user_id,
         user_name, commit_time, user_image
         )
-        values (#{commentId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, #{storeName,jdbcType=VARCHAR},
-        #{goodsName,jdbcType=VARCHAR}, #{comments,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},
+        values (#{commentId,jdbcType=INTEGER},
+        (select #{storeId,jdbcType=INTEGER} from t_store where store_id = #{storeId,jdbcType=INTEGER}),
+        (select #{storeName,jdbcType=VARCHAR} from t_store where store_id = #{storeId,jdbcType=INTEGER} and store_name = #{storeName,jdbcType=VARCHAR}),
+        #{goodsName,jdbcType=VARCHAR}, #{comments,jdbcType=VARCHAR},
+        (select #{userId,jdbcType=INTEGER} from t_user where user_id = #{userId,jdbcType=INTEGER}),
         #{userName,jdbcType=VARCHAR}, #{commitTime,jdbcType=VARCHAR}, #{userImage,jdbcType=VARCHAR}
         )
     </insert>
