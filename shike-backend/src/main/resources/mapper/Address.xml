@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tongji.softwaretest.shikebackend.mapper.AddressMapper">
+    <resultMap id="BaseResultMap" type="com.tongji.softwaretest.shikebackend.entity.Address">
+        <id column="address_id" jdbcType="INTEGER" property="addressId" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+        <result column="user_tel" jdbcType="VARCHAR" property="userTel" />
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from t_address
+        where address_id = #{addressId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.tongji.softwaretest.shikebackend.entity.Address">
+        insert into t_address (address_id,user_id, user_name,
+        address, user_tel)
+        values (#{addressId,jdbcType=INTEGER},(select #{userId,jdbcType=INTEGER} from t_user where user_id = #{userId,jdbcType=INTEGER}), #{userName,jdbcType=VARCHAR},
+        #{address,jdbcType=VARCHAR}, #{userTel,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.tongji.softwaretest.shikebackend.entity.Address">
+        update t_address
+        set user_id = #{userId,jdbcType=INTEGER},
+        user_name = #{userName,jdbcType=VARCHAR},
+        address = #{address,jdbcType=VARCHAR},
+        user_tel = #{userTel,jdbcType=VARCHAR}
+        where address_id = #{addressId,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select address_id, user_id, user_name, address, user_tel
+        from t_address
+        where address_id = #{addressId,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select address_id, user_id, user_name, address, user_tel
+        from t_address
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+</mapper>

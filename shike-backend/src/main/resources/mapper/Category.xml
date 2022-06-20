@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tongji.softwaretest.shikebackend.mapper.CategoryMapper">
+    <resultMap id="BaseResultMap" type="com.tongji.softwaretest.shikebackend.entity.Category">
+        <id column="category_id" jdbcType="INTEGER" property="categoryId" />
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+        <result column="t_store_store_id" jdbcType="INTEGER" property="tStoreStoreId" />
+    </resultMap>
+    <resultMap id="PlusResultMap" type="com.tongji.softwaretest.shikebackend.entity.Category" >
+        <id column="category_id" property="categoryId" jdbcType="INTEGER" />
+        <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+        <result column="t_store_store_id" property="tStoreStoreId" jdbcType="INTEGER" />
+        <collection property="goodslist" ofType="com.tongji.softwaretest.shikebackend.entity.Goods" select="com.tongji.softwaretest.shikebackend.mapper.GoodsMapper.getGoods" column="category_id">
+
+        </collection>
+    </resultMap>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from t_category
+        where category_id = #{categoryId,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.tongji.softwaretest.shikebackend.entity.Category">
+        insert into t_category (category_id, category_name, t_store_store_id
+        )
+        values (#{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{tStoreStoreId,jdbcType=INTEGER}
+        )
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.tongji.softwaretest.shikebackend.entity.Category">
+        update t_category
+        set category_name = #{categoryName,jdbcType=VARCHAR},
+        t_store_store_id = #{tStoreStoreId,jdbcType=INTEGER}
+        where category_id = #{categoryId,jdbcType=INTEGER}
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select category_id, category_name, t_store_store_id
+        from t_category
+        where category_id = #{categoryId,jdbcType=INTEGER}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select category_id, category_name, t_store_store_id
+        from t_category
+    </select>
+
+    <select id="selectByStoreId" resultMap="PlusResultMap" parameterType="java.lang.Integer" >
+        select category_id, category_name, t_store_store_id
+        from t_category
+        where t_store_store_id = #{storeId,jdbcType=INTEGER}
+    </select>
+</mapper>
